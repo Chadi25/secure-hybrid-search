@@ -1,41 +1,41 @@
 # Secure Hybrid Search AI (ChadiBot V4)
 
-Ce projet est un moteur de recherche documentaire hybride et sécurisé (Lexical + Sémantique Vectoriel) conçu pour s'interfacer avec un serveur de fichiers d'entreprise. Il respecte scrupuleusement les droits NTFS des utilisateurs (SSO Active Directory) et se met à jour en temps réel lors de l'ajout, de la modification ou de la suppression de fichiers.
+This project is a hybrid and secure document search engine (Lexical + Vector Semantic) designed to interface with an enterprise file server. It strictly respects users' NTFS permissions (via Active Directory SSO) and updates in real-time when files are added, modified, or deleted.
 
 ## 🚀 Architecture
 
-Le projet est divisé en deux parties principales :
+The project is divided into two main parts:
 
-1. **Serveur de Fichiers (FILE SERVER) :**
-   - **`Watcher_IA.ps1`** : Un script PowerShell qui surveille les modifications de fichiers en temps réel et notifie le serveur IA via un webhook.
-   - **`lanceur_ia.ps1` & `doc_ia_protocol.reg`** : Un gestionnaire de protocole (`doc-ia://`) permettant d'ouvrir des documents directement depuis le navigateur web de manière sécurisée.
-   - **`web.config`** : Configuration IIS pour gérer le Reverse Proxy vers l'interface Streamlit et transmettre l'identité de l'utilisateur (SSO).
+1. **File Server (FILE SERVER):**
+   - **`Watcher_IA.ps1`**: A PowerShell script that monitors file modifications in real-time and notifies the AI server via a webhook.
+   - **`lanceur_ia.ps1` & `doc_ia_protocol.reg`**: A custom protocol handler (`doc-ia://`) allowing users to open documents securely and directly from the web browser.
+   - **`web.config`**: IIS configuration to manage the Reverse Proxy to the Streamlit interface and pass user identity (SSO).
 
-2. **Serveur IA (AI SERVER) :**
-   - **`app.py`** : L'interface utilisateur développée avec Streamlit. Elle interroge Ollama (LLM) pour la compréhension du langage naturel, filtre les résultats via SQLite (Lexical), utilise FAISS (Vectoriel Sémantique) et valide les droits d'accès en direct.
-   - **`api_webhook.py`** : API Flask qui écoute les événements du serveur de fichiers et met à jour dynamiquement la base SQLite et le cerveau vectoriel FAISS.
-   - **`init_faiss_v4.py`** : Script de construction et d'entraînement initial du modèle vectoriel de recherche sémantique.
-   - **`start_faiss_background.bat`** : Batch pour reconstruire l'index en tâche de fond.
+2. **AI Server (AI SERVER):**
+   - **`app.py`**: The user interface developed with Streamlit. It queries Ollama (LLM) for natural language understanding, filters results via SQLite (Lexical), uses FAISS (Semantic Vector), and validates access rights in real-time.
+   - **`api_webhook.py`**: A Flask API that listens to file server events and dynamically updates the SQLite database and the FAISS vector brain.
+   - **`init_faiss_v4.py`**: Script for the initial build and training of the semantic search vector model.
+   - **`start_faiss_background.bat`**: A batch script to rebuild the index in the background.
 
-## ⚙️ Déploiement
+## ⚙️ Deployment
 
-Avant de déployer, vous devez parcourir le code et rechercher le tag `[MODIFIER_ICI]`. Voici les étapes principales :
+Before deploying, you must go through the code and look for the `[MODIFY_HERE]` tags. Here are the main steps:
 
-### 1. Préparation du Serveur IA
-- Installez les dépendances via `pip install -r requirements.txt`.
-- Assurez-vous d'avoir une instance **Ollama** fonctionnelle avec le modèle `llama3.2` ou modifiez la variable `URL_OLLAMA` dans `app.py`.
-- Modifiez les variables de chemin (logs, lecteurs réseaux) dans `api_webhook.py` et `app.py`.
-- Lancer la création de l'index initial via `start_faiss_background.bat`.
-- Démarrez l'API webhook et l'interface Streamlit (ex: via des services Windows ou un gestionnaire de processus).
+### 1. AI Server Setup
+- Install the dependencies via `pip install -r requirements.txt`.
+- Make sure you have a working **Ollama** instance with the `llama3.2` model, or change the `URL_OLLAMA` variable in `app.py`.
+- Modify path variables (logs, network drives) in `api_webhook.py` and `app.py`.
+- Start the initial index creation via `start_faiss_background.bat`.
+- Start the webhook API and the Streamlit interface (e.g., via Windows services or a process manager).
 
-### 2. Préparation du Serveur de Fichiers
-- Adaptez les adresses IP et chemins réseau dans `Watcher_IA.ps1` et lancez-le en tâche de fond.
-- Déployez la configuration IIS `web.config` pour exposer le portail Web.
-- Déployez `doc_ia_protocol.reg` et `lanceur_ia.ps1` via GPO sur les postes clients pour que les liens "Ouvrir" / "Editer" fonctionnent dans l'interface.
+### 2. File Server Setup
+- Adapt IP addresses and network paths in `Watcher_IA.ps1` and run it as a background task.
+- Deploy the IIS `web.config` configuration to expose the Web portal.
+- Deploy `doc_ia_protocol.reg` and `lanceur_ia.ps1` via GPO on client workstations so that the "Open" / "Edit" links work properly from the UI.
 
-## 🔒 Sécurité
-- **Authentification SSO** : Le serveur WebIIS frontal s'occupe de l'authentification et passe le relais via un jeton temporaire.
-- **Vérification NTFS en direct** : L'IA valide silencieusement les permissions de lecture via l'Active Directory, en garantissant que seuls les documents autorisés sont exposés à un utilisateur, avec des vérifications renforcées (Live) sur des zones dites "Sanctuaires".
+## 🔒 Security
+- **SSO Authentication**: The frontend WebIIS server handles authentication and passes the identity via a temporary token.
+- **Live NTFS Verification**: The AI silently validates read permissions via Active Directory, ensuring that only authorized documents are exposed to a user, with reinforced (Live) checks on "Sanctuary" zones.
 
-## 📚 Documentation Supplémentaire
-Le dossier `DOC/` contient la documentation de l'architecture originelle (du passage de la v3 à la v4 industrielle).
+## 📚 Additional Documentation
+The `DOC/` folder contains the original architectural documentation (covering the transition from v3 to the industrial v4).

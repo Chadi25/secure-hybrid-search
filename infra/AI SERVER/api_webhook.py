@@ -13,12 +13,12 @@ from loguru import logger
 # --- CONFIGURATION LOGURU ---
 logger.remove()
 logger.add(sys.stderr, colorize=True, format="<green>{time:HH:mm:ss}</green> | <level>{level: <8}</level> | <level>{message}</level>")
-# [MODIFIER_ICI] Chemin des logs.
+# [MODIFY_HERE] Path to logs.
 logger.add("C:/AGENT_IA/log_webhook_propre.log", rotation="5 MB", retention="10 days", encoding="utf-8", level="DEBUG")
 
 app = Flask(__name__)
 CHEMIN_BDD = "chadibot_v4.db"  # <-- La nouvelle base de données
-# [MODIFIER_ICI] Lettre du lecteur mappé sur le serveur IA pointant vers le serveur de fichiers
+# [MODIFY_HERE] Drive letter mapped on the AI server pointing to the file server
 RACINE_SCAN = "S:\\\\"
 
 EXTENSIONS_FANTOMES = {".tmp", ".lock", ".bak", ".old"}
@@ -31,7 +31,7 @@ def obtenir_groupes_dossier(chemin_dossier: str) -> list:
     """Récupère les droits NTFS avec repli automatique sur le dossier parent (Anti-Fichiers Fantômes)."""
     groupes_autorises = []
     
-    # [MODIFIER_ICI] Conversion du chemin du lecteur mappé (S:) vers le chemin physique du serveur de fichiers (D:\Services\)
+    # [MODIFY_HERE] Conversion from mapped drive path (S:) to the physical path of the file server (D:\Services\)
     # Utilisé pour interroger les ACLs distantes si nécessaire.
     chemin_local = re.sub(r'(?i)^s:\\', r'D:\\Services\\', chemin_dossier)
     chemin_local = os.path.normpath(chemin_local)
@@ -240,5 +240,5 @@ if __name__ == '__main__':
     # Initialisation de FAISS en mémoire au lancement
     init_faiss_v4.charger_modeles_en_memoire()
     logger.info("🚀 Démarrage du serveur Webhook V4 (Hybride Texte/Binaire) sur le port 8000...")
-    # '0.0.0.0' écoute sur toutes les interfaces réseau du serveur IA
+    # '0.0.0.0' listens on all network interfaces of the AI server
     app.run(host='0.0.0.0', port=8000)

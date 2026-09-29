@@ -1,6 +1,6 @@
 # ====================================================================
 # PROJET CHADIBOT - LANCEUR D'OUVERTURE DE FICHIERS CLIENT (doc-ia:)
-# Emplacement : \\<VOTRE_SERVEUR_FICHIER>\services\INFORMATIQUE\lanceur_ia.ps1
+# Emplacement : \\<YOUR_FILE_SERVER>\services\INFORMATIQUE\lanceur_ia.ps1
 # ====================================================================
 
 param (
@@ -56,7 +56,7 @@ try {
 
     # Convertit les lettres de lecteur réseau (ex: S:\) en chemin UNC si besoin
     if ($cheminFichier -match "^(?i)S:\\") {
-        $cheminFichier = $cheminFichier -replace "^(?i)S:\\", "\\<VOTRE_SERVEUR_FICHIER>\Services\"
+        $cheminFichier = $cheminFichier -replace "^(?i)S:\\", "\\<YOUR_FILE_SERVER>\Services\"
     }
 
     # 6. Vérification de l'existence du fichier
@@ -103,11 +103,11 @@ try {
     Write-Log "CRITICAL ERROR : \$_"
     exit 1
 }
-# 🛠️ Rappel du fonctionnement et du déploiement GPO
-# Déploiement du script :
-# Le fichier doit être placé sur le serveur de fichiers partagé : \\<VOTRE_SERVEUR_FICHIER>\services\INFORMATIQUE\lanceur_ia.ps1
+# 🛠️ Reminder of how it works and GPO deployment
+# Script deployment:
+# The file must be placed on the shared file server: \\<YOUR_FILE_SERVER>\services\INFORMATIQUE\lanceur_ia.ps1
 # 
-# Configuration de la GPO Registre Client :
-# Clef : HKEY_LOCAL_MACHINE\SOFTWARE\Classes\doc-ia\shell\open\command
-# Valeur (Par défaut) :
-# powershell.exe -WindowStyle Hidden -ExecutionPolicy Bypass -File "\\<VOTRE_SERVEUR_FICHIER>\services\INFORMATIQUE\lanceur_ia.ps1" "%1"
+# Client Registry GPO Configuration:
+# Key: HKEY_LOCAL_MACHINE\SOFTWARE\Classes\doc-ia\shell\open\command
+# Value (Default):
+# powershell.exe -WindowStyle Hidden -ExecutionPolicy Bypass -File "\\<YOUR_FILE_SERVER>\services\INFORMATIQUE\lanceur_ia.ps1" "%1"

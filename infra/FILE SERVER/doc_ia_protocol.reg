@@ -9,5 +9,5 @@ Windows Registry Editor Version 5.00
 [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\doc-ia\shell\open]
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\doc-ia\shell\open\command]
-; [MODIFIER_ICI] Remplacez par le chemin UNC de votre script de lancement silencieux
-@="wscript.exe \"\\\\<VOTRE_SERVEUR_FICHIER>\\services\\INFORMATIQUE\\lanceur_silencieux.vbs\" \"%1\""
+; [MODIFY_HERE] Replace with the UNC path of your silent launch script
+@="wscript.exe \"\\\\<YOUR_FILE_SERVER>\\services\\INFORMATIQUE\\lanceur_silencieux.vbs\" \"%1\""

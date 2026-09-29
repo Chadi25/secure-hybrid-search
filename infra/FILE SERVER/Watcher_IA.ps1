@@ -2,9 +2,9 @@
 # SCRIPT WATCHER IA - RETOUR V3.1 (LE VRAI CODE ORIGINAL SUR TOUT LE SERVEUR)
 # ====================================================================
 
-$Global:LogFileMain = "C:\Scripts_Admin\log_IA.txt" # [MODIFIER_ICI] Chemin du fichier de log sur votre serveur de fichiers
-$DossierASurveiller = "D:\Services" # [MODIFIER_ICI] Le dossier physique à surveiller sur le serveur de fichiers
-$Global:UrlWebhook = "http://<VOTRE_IP_AI_SERVER>:8000/webhook" # [MODIFIER_ICI] Remplacez par l'IP de votre serveur IA
+$Global:LogFileMain = "C:\Scripts_Admin\log_IA.txt" # [MODIFY_HERE] Path to the log file on your file server
+$DossierASurveiller = "D:\Services" # [MODIFY_HERE] The physical folder to monitor on the file server
+$Global:UrlWebhook = "http://<YOUR_AI_SERVER_IP>:8000/webhook" # [MODIFY_HERE] Replace with your AI server IP
 
 Add-Content -Path $Global:LogFileMain -Value "======================================"
 Add-Content -Path $Global:LogFileMain -Value "$(Get-Date) - [START] Démarrage V3.1 sur TOUT LE SERVEUR"
@@ -26,8 +26,8 @@ $ActionBloc = {
 
     Start-Sleep -Milliseconds 100
 
-    # Traduction du chemin local vers le partage réseau (ex: D:\Services\ -> S:\)
-    # [MODIFIER_ICI] Adaptez selon votre point de montage réseau
+    # Local path to network share translation (e.g.: D:\Services\ -> S:\)
+    # [MODIFY_HERE] Adapt according to your network mount point
     $CheminReseau = $CheminFichierLocal -replace "^(?i)D:\\Services\\", "S:\"
     $Payload = @{ fichier = $CheminReseau; evenement = $TypeEvenement.ToString() } | ConvertTo-Json -Compress
     
