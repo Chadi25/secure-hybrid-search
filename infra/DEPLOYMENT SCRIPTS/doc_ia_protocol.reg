@@ -1,0 +1,12 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\doc-ia]
+@="URL:Doc IA Protocol"
+"URL Protocol"=""
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\doc-ia\shell]
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\doc-ia\shell\open]
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\doc-ia\shell\open\command]
+@="wscript.exe \"\\\\faf-fls\\services\\INFORMATIQUE\\lanceur_silencieux.vbs\" \"%1\""

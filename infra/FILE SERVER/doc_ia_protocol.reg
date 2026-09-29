@@ -1,0 +1,13 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\doc-ia]
+@="URL:Doc IA Protocol"
+"URL Protocol"=""
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\doc-ia\shell]
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\doc-ia\shell\open]
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\doc-ia\shell\open\command]
+; [MODIFIER_ICI] Remplacez par le chemin UNC de votre script de lancement silencieux
+@="wscript.exe \"\\\\<VOTRE_SERVEUR_FICHIER>\\services\\INFORMATIQUE\\lanceur_silencieux.vbs\" \"%1\""
